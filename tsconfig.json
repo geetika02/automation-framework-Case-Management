@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "types": ["node"],
+    "ignoreDeprecations": "6.0"
+  },
+  "include": [
+    "tests/**/*.ts",
+    "locators/**/*.ts",
+    "features/**/*.ts",
+    "playwright.config.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
