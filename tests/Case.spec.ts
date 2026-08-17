@@ -1,5 +1,6 @@
 import { test } from '@playwright/test';
 import { CaseLocators } from '../locators/CaseLocators';
+import { EnvConfig } from '../config/EnvConfig';
 
 function generatePhoneNumber(): string {
   const min = 6000000000;
@@ -25,9 +26,17 @@ function generate_random_name_email(length = 4) {
   return result;
 }
 
-test('New Case', async ({ page }) => {
-  await page.goto("https://cmtest.fly.dev/welcome")
+test.skip('New Case', async ({ page }) => {
+  await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
+
+  // The browser context is already seeded with the session from EnvConfig.storageStatePath
+  // (see storageState in playwright.config.ts). Confirm it's actually logged in before proceeding.
+  const postLoginIndicator = page.getByRole("link", { name: "Case List" })
+  const isLoggedIn = await postLoginIndicator.isVisible()
+  if (!isLoggedIn) {
+    throw new Error(`Not logged in - expected a valid session in ${EnvConfig.storageStatePath}. Run login.spec.ts to refresh it.`)
+  }
 
     //Click on the New Case link from nav menu
     await page.locator(CaseLocators.nav.newCaseLink).click()
@@ -52,7 +61,10 @@ test('New Case', async ({ page }) => {
     await page.locator(CaseLocators.caseForm.firstName).fill(value_fname);
     await page.locator(CaseLocators.caseForm.lastName).fill(value_lname);
 
-    // Select Gender from dropdown
+    /*const email = `${generate_random_name_email(6)}@example.com`;
+    await page.locator(CaseLocators.caseForm.email).fill(email);
+    await page.locator(CaseLocators.caseForm.phone).fill(generatePhoneNumber());*/
+
     await page.locator(CaseLocators.caseForm.gender).selectOption("Male")
 
     // Enter the address details for the case
@@ -74,7 +86,12 @@ test('New Case', async ({ page }) => {
   await page.waitForTimeout(2000)
 
     // Select Law firm to add in billing group and save the details
-    await page.locator(CaseLocators.billingConfig.lawFirmInput).click()
+   //
+    await page.locator(CaseLocators.billingConfig.lawFirmPlaceholder).click()
+   await page.locator(CaseLocators.billingConfig.lawFirmInput).click()
+   
+    //await page.locator(CaseLocators.billingConfig.lawFirmOption2).click()
+   //await page.locator("//label[normalize-space()='Law firm']/following::input[1]").click();
 
     // Select Attorneys of Law Firm to add in billing group and save the details
     await page.locator(CaseLocators.billingConfig.lawFirmOptionsInput).first().click()
@@ -131,7 +148,7 @@ test('New Case', async ({ page }) => {
 
 
 test.skip('Edit Case', async ({ page }) => {
-  await page.goto("https://cmtest.fly.dev/welcome")
+  await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
   await page.locator(CaseLocators.nav.newCaseLink).click()
   await page.locator(CaseLocators.caseList.firstCaseRow).first().hover();

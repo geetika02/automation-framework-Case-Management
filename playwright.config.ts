@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { EnvConfig } from './config/EnvConfig';
 
 /**
  * Read environment variables from file.
@@ -31,7 +32,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     video: 'on',
     screenshot: 'on',
-    storageState: "test_data/loginStorageState.json",
+    storageState: EnvConfig.storageStatePath,
   },
 
   /* Configure projects for major browsers */
@@ -66,10 +67,17 @@ export default defineConfig({
     //   name: 'Microsoft Edge',
     //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
     // },
-     {
+    {
+      name: 'setup',
+      testMatch: /login\.spec\.ts/,
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    },
+    {
       name: 'Google Chrome',
-       use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-     },
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      testIgnore: /login\.spec\.ts/,
+      dependencies: ['setup'],
+    },
   ],
 
   /* Run your local dev server before starting the tests */

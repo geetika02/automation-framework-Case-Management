@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { UserLocators } from '../locators/UserLocators';
+import { EnvConfig } from '../config/EnvConfig';
 
 
 function generatePhoneNumber(): string {
@@ -29,7 +30,7 @@ function generate_random_name_email(length = 4) {
 test.describe('All tests in this suite', () => {
 
 test('New Consultants', async ({ page }) => {
-  await page.goto("https://cmtest.fly.dev/welcome")
+  await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
 
     //Click on the Consultants link from nav menu
@@ -62,7 +63,7 @@ test('New Consultants', async ({ page }) => {
 })
 
 test('Experts', async ({ page }) => {
-  await page.goto("https://cmtest.fly.dev/welcome")
+  await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
 
     //Click on the Experts link from nav menu
@@ -114,7 +115,7 @@ test('Experts', async ({ page }) => {
 })
 
 test('Law Firms', async ({ page }) => {
-  await page.goto("https://cmtest.fly.dev/welcome")
+  await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
 
     //Click on the Law firms link from nav menu
@@ -158,7 +159,7 @@ test('Law Firms', async ({ page }) => {
 })
 
 test('Support Staff', async ({ page }) => {
-    await page.goto("https://cmtest.fly.dev/welcome")
+    await page.goto(EnvConfig.baseURL)
     await page.waitForLoadState("networkidle")
 
     //Click on the Support Staff link from nav menu
@@ -194,7 +195,7 @@ test('Support Staff', async ({ page }) => {
   })
 
   test('Attorneys', async ({ page }) => {
-    await page.goto("https://cmtest.fly.dev/welcome")
+    await page.goto(EnvConfig.baseURL)
     await page.waitForLoadState("networkidle")
 
     //Click on the Attorney link from nav menu

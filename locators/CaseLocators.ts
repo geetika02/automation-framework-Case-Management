@@ -31,6 +31,8 @@ export const CaseLocators = {
 
   billingConfig: {
     billingGroupLabel:   "//*[@id=\"billing-groups\"]/label",
+    lawFirmPlaceholder: "//*[@id=\"billing-groups\"]/div/div[2]/div[2]/div[2]/div",
+    lawFirmOption2:    "//*[starts-with(@id,'menu-i-')]/div/label[4]/div",
     lawFirmInput:        "//input[@type='text' and contains(@id,'lawfirm_id')]",
     lawFirmOptionsInput: "//input[contains(@phx-click,'lawfirm_id-options')]",
     lawFirmOption4:      "(//div[contains(@id,'lawfirm_id-option')])[4]",
