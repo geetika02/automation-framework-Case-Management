@@ -1,5 +1,5 @@
 export const EnvConfig = {
-  baseURL: "http://cmfeaturedemo.fly.dev/welcome",
+  baseURL: "http://cmtest.fly.dev/welcome",
   featureDemoURL: "http://cmfeaturedemo.fly.dev/",
   nightlyURL: "http://cmnightly.fly.dev/",
   email: "geetika.chandra22@gmail.com",

@@ -27,7 +27,7 @@ function generate_random_name_email(length = 4) {
   return result;
 }
 
-test.describe('All tests in this suite', () => {
+test.describe('All tests in this suite', { tag: '@regression' }, () => {
 
 test('New Consultants', async ({ page }) => {
   await page.goto(EnvConfig.baseURL)
@@ -45,15 +45,15 @@ test('New Consultants', async ({ page }) => {
     await page.locator(UserLocators.testDataHelper.button).click()
 
     // Click on the generate link
-    await page.locator(UserLocators.testDataHelper.generateSpan).click()
-    const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.firstNameItem).click()
-    const value_lname = await page.locator(UserLocators.testDataHelper.lastNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.lastNameItem).click()
+    await page.locator(UserLocators.testDataHelper.name).click()
+    //const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
+    //await page.locator(UserLocators.testDataHelper.firstNameItem).click()
+    //const value_lname = await page.locator(UserLocators.testDataHelper.lastNameItem).innerText()
+   // await page.locator(UserLocators.testDataHelper.lastNameItem).click()
 
     // Enter the Consultant details like name and Email and save
-    await page.locator(UserLocators.consultant.firstName).fill(value_fname)
-    await page.locator(UserLocators.consultant.lastName).fill(value_lname)
+   // await page.locator(UserLocators.consultant.firstName).fill(value_fname)
+   // await page.locator(UserLocators.consultant.lastName).fill(value_lname)
 
     // Check the checkboxes for consultant type
     await page.getByRole("checkbox", {name: "Adult"}).check();
@@ -76,39 +76,31 @@ test('Experts', async ({ page }) => {
     await page.locator(UserLocators.testDataHelper.button).click()
 
     // Click on the generate link
-    await page.locator(UserLocators.testDataHelper.generateSpan).click()
-    const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.firstNameItem).click()
-    const value_lname = await page.locator(UserLocators.testDataHelper.lastNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.lastNameItem).click()
-
-    // Enter the Expert details like name and Email and save
-    await page.locator(UserLocators.expert.firstName).fill(value_fname)
-    await page.locator(UserLocators.expert.lastName).fill(value_lname)
-
-    // Enter the Expert Organization details
-    await page.locator(UserLocators.expert.orgName).fill("Expert Organization - " + generate_random_name())
+    await page.locator(UserLocators.testDataHelper.name).click()
+   
+    //await page.locator(UserLocators.expert.orgName).fill("Expert Organization - " + generate_random_name())
 
     //Expert Rate to be entered for not billed
     await page.locator(UserLocators.expert.rateSection).click();
-    await page.locator(UserLocators.expert.rate0Name).fill(value_fname + " " + value_lname)
+    await page.locator(UserLocators.expert.rate0Name).fill("Process Record")
     await page.locator(UserLocators.expert.rate0Code).fill(generate_random_name(2));
     await page.locator(UserLocators.expert.rate0Period).selectOption("not billed")
     await page.locator(UserLocators.expert.rate0Currency).fill("100");
 
     //Expert Rate to be entered for flat fee
     await page.waitForTimeout(1000)
-    await page.locator(UserLocators.expert.addRateLabel).click();
+    await page.locator(UserLocators.expert.rateSection).click();
+    //await page.locator(UserLocators.expert.addRateLabel).click();
     await page.locator(UserLocators.expert.rate1Name).fill(generate_random_name(4));
     await page.locator(UserLocators.expert.rate1Code).fill(generate_random_name(2));
     await page.locator(UserLocators.expert.rate1Period).selectOption("flat fee")
     await page.locator(UserLocators.expert.rate1Currency).fill("500");
 
     // Check the checkboxes for expert type
-    await page.getByRole("checkbox", {name: "Adult"}).check();
+   /* await page.getByRole("checkbox", {name: "Adult"}).check();
     await page.getByRole("checkbox", {name: "Economist"}).check();
     await page.getByRole("checkbox", {name: "Burns"}).check();
-    await page.getByRole("checkbox", {name: "Nationwide"}).check();
+    await page.getByRole("checkbox", {name: "Nationwide"}).check();*/
     await page.getByRole("button", {name: "Save"}).click();
     await page.waitForTimeout(2000)
     await page.keyboard.press('Escape');
@@ -130,12 +122,12 @@ test('Law Firms', async ({ page }) => {
     await page.locator(UserLocators.testDataHelper.button).click()
 
     // Click on the generate link
-    await page.locator(UserLocators.testDataHelper.generateSpan).click()
-    const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.firstNameItem).click()
+    await page.locator(UserLocators.testDataHelper.name).click()
+   //const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
+    //await page.locator(UserLocators.testDataHelper.firstNameItem).click()
 
     // Enter the Law firm details like name and Email and save
-    await page.locator(UserLocators.lawFirm.orgName).fill(value_fname)
+   // await page.locator(UserLocators.lawFirm.orgName).fill(value_fname)
     /*await page.locator(UserLocators.lawFirm.address).fill("823 Aviation Way, California")
     await page.locator(UserLocators.lawFirm.city).fill("Los Angeles")
     await page.locator(UserLocators.lawFirm.state).selectOption("California")
@@ -179,15 +171,15 @@ test('Support Staff', async ({ page }) => {
     await page.locator(UserLocators.testDataHelper.button).click()
 
     // Click on the generate link
-    await page.locator(UserLocators.testDataHelper.generateSpan).click()
-    const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.firstNameItem).click()
-    const value_lname = await page.locator(UserLocators.testDataHelper.lastNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.lastNameItem).click()
+    await page.locator(UserLocators.testDataHelper.name).click()
+    //const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
+    //await page.locator(UserLocators.testDataHelper.firstNameItem).click()
+    //const value_lname = await page.locator(UserLocators.testDataHelper.lastNameItem).innerText()
+   // await page.locator(UserLocators.testDataHelper.lastNameItem).click()
 
     // Enter the Support staff details like name and Email and save
-    await page.locator(UserLocators.supportStaff.firstName).fill(value_fname)
-    await page.locator(UserLocators.supportStaff.lastName).fill(value_lname)
+   // await page.locator(UserLocators.supportStaff.firstName).fill(value_fname)
+    //await page.locator(UserLocators.supportStaff.lastName).fill(value_lname)
     await page.locator(UserLocators.supportStaff.email).fill("support." + generate_random_name_email() + "@test.com")
     await page.getByRole("button", {name: "Save"}).click();
     await page.waitForTimeout(2000)
@@ -219,15 +211,15 @@ test('Support Staff', async ({ page }) => {
     await page.locator(UserLocators.testDataHelper.button).click()
 
     // Click on the generate link
-    await page.locator(UserLocators.testDataHelper.generateSpan).click()
-    const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.firstNameItem).click()
-    const value_lname = await page.locator(UserLocators.testDataHelper.lastNameItem).innerText()
-    await page.locator(UserLocators.testDataHelper.lastNameItem).click()
+    await page.locator(UserLocators.testDataHelper.name).click()
+   // const value_fname = await page.locator(UserLocators.testDataHelper.firstNameItem).innerText()
+   // await page.locator(UserLocators.testDataHelper.firstNameItem).click()
+   // const value_lname = await page.locator(UserLocators.testDataHelper.lastNameItem).innerText()
+   // await page.locator(UserLocators.testDataHelper.lastNameItem).click()
 
     // Enter the attorney details like name and Email and save
-    await page.locator(UserLocators.attorney.firstName).fill(value_fname)
-    await page.locator(UserLocators.attorney.lastName).fill(value_lname)
+   // await page.locator(UserLocators.attorney.firstName).fill(value_fname)
+   // await page.locator(UserLocators.attorney.lastName).fill(value_lname)
 
     /*await page.locator(UserLocators.attorney.address).fill("823 Aviation Way, California")
     await page.locator(UserLocators.attorney.city).fill("Los Angeles")

@@ -13,10 +13,11 @@ export const UserLocators = {
     generateSpan:  "//*[@id=\"test-data-helper-window\"]/div[1]/div[1]//span",
     firstNameItem: "//*[@id=\"test-data-helper-window\"]/div[2]/div/div[1]",
     lastNameItem:  "//*[@id=\"test-data-helper-window\"]/div[2]/div/div[2]",
+    name: "//*[@id=\"test-data-helper-window\"]/div[2]/button[1]",
   },
 
   consultant: {
-    newButton: "//*[@id=\"consultant-table-form\"]/button",
+    newButton: "//*[@id=\"consultant-table-form\"]/button[2]",
     firstName: "//*[@id=\"consultant-form_first_name\"]",
     lastName:  "//*[@id=\"consultant-form_last_name\"]",
   },
@@ -26,7 +27,7 @@ export const UserLocators = {
     firstName:       "//*[@id=\"expert-form_first_name\"]",
     lastName:        "//*[@id=\"expert-form_last_name\"]",
     orgName:         "//*[@id=\"expert-form_org_name\"]",
-    rateSection:     "//*[@id=\"expert-form\"]/fieldset[2]",
+    rateSection:     "//*[@id=\"expert-form\"]/fieldset/label",
     addRateLabel:    "//*[@id=\"expert-form\"]/fieldset[2]/label",
     rate0Name:       "//*[@id=\"expert-form_work_types_0_name\"]",
     rate0Code:       "//*[@id=\"expert-form_work_types_0_code\"]",
@@ -77,5 +78,6 @@ export const UserLocators = {
     zip:                "//*[@id=\"attorney-form_zip\"]",
     email:              "//*[@id=\"attorney-form_email\"]",
   },
+
 
 } as const;

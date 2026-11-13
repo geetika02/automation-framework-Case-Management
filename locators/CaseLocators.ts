@@ -7,7 +7,7 @@ export const CaseLocators = {
   caseList: {
     newCaseButton: "//*[@id=\"case-table-form\"]/button",
     firstCaseRow:  "//*[@id=\"case-table\"]/tbody/tr[1]/td[4]",
-    firstCaseAction: "//table//tr[1]/td[4]//div[2]/div",
+    firstCaseAction: "//*[@id=\"case-table\"]/tbody/tr[1]/td[3]/div",
   },
 
   testDataHelper: {
@@ -15,6 +15,7 @@ export const CaseLocators = {
     generateSpan:  "//*[@id=\"test-data-helper-window\"]/div[1]/div[1]//span",
     firstNameItem: "//*[@id=\"test-data-helper-window\"]/div[2]/div/div[1]",
     lastNameItem:  "//*[@id=\"test-data-helper-window\"]/div[2]/div/div[2]",
+    name: "//*[@id=\"test-data-helper-window\"]/div[2]/button[1]"
   },
 
   caseForm: {
@@ -41,12 +42,18 @@ export const CaseLocators = {
     attorneyLabel:       "Attorney (accounting customer)",
   },
 
+  billingTab: {
+    backButtonName: "Back to list",
+  },
+
   caseNotes: {
     workTypeDropdown: "//select[@id='case-note-form_work_type_id']",
     noteTextbox:      "//div[@role='textbox' and @contenteditable='true']",
     addBillableLabel: "//*[@id=\"case-note-form\"]/fieldset/label",
     addworkentriesinminutes: "//*[@id=\"case-note-form_work_entries_0_minutes\"]",
     billableworkentrylabel: "//*[@id=\"case-note-form\"]/fieldset/legend",
+    Internalnotesdesc : "//*[@id=\"case-note-form_work_entries_0_description\"]",
+    billiableminutes: "//*[starts-with(@id, 'case-note-form_work_entries_') and contains(@id, '_minutes')]",
   },
 
 } as const;

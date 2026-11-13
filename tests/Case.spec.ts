@@ -1,6 +1,7 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { CaseLocators } from '../locators/CaseLocators';
 import { EnvConfig } from '../config/EnvConfig';
+import { UserLocators } from '../locators/UserLocators';
 
 function generatePhoneNumber(): string {
   const min = 6000000000;
@@ -26,7 +27,7 @@ function generate_random_name_email(length = 4) {
   return result;
 }
 
-test.skip('New Case', async ({ page }) => {
+test('New Case', { tag: '@regression' }, async ({ page }) => {
   await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
 
@@ -50,21 +51,9 @@ test.skip('New Case', async ({ page }) => {
 
     await page.locator(CaseLocators.testDataHelper.button).click()
 
-    // Click on the generate link
-    await page.locator(CaseLocators.testDataHelper.generateSpan).click()
-    const value_fname = await page.locator(CaseLocators.testDataHelper.firstNameItem).innerText()
-    await page.locator(CaseLocators.testDataHelper.firstNameItem).click()
-    const value_lname = await page.locator(CaseLocators.testDataHelper.lastNameItem).innerText()
-    await page.locator(CaseLocators.testDataHelper.lastNameItem).click()
-
-    // Enter the Case details like name and Email and save
-    await page.locator(CaseLocators.caseForm.firstName).fill(value_fname);
-    await page.locator(CaseLocators.caseForm.lastName).fill(value_lname);
-
-    /*const email = `${generate_random_name_email(6)}@example.com`;
-    await page.locator(CaseLocators.caseForm.email).fill(email);
-    await page.locator(CaseLocators.caseForm.phone).fill(generatePhoneNumber());*/
-
+    
+    await page.locator(CaseLocators.testDataHelper.name).click()
+    
     await page.locator(CaseLocators.caseForm.gender).selectOption("Male")
 
     // Enter the address details for the case
@@ -81,24 +70,32 @@ test.skip('New Case', async ({ page }) => {
     await page.waitForTimeout(4000)
 
    // Navigate to Billing Configuration tab and add the billing group for the case
-  await page.getByText("Billing configuration").click()
+  /*await page.getByText("Billing configuration").click()
   await page.locator(CaseLocators.billingConfig.billingGroupLabel).click()
   await page.waitForTimeout(2000)
 
     // Select Law firm to add in billing group and save the details
    //
     await page.locator(CaseLocators.billingConfig.lawFirmPlaceholder).click()
-   await page.locator(CaseLocators.billingConfig.lawFirmInput).click()
    
-    //await page.locator(CaseLocators.billingConfig.lawFirmOption2).click()
-   //await page.locator("//label[normalize-space()='Law firm']/following::input[1]").click();
+    const lawFirmTrigger = page
+    .locator('label', { hasText: 'Law firm' })
+    .locator('xpath=ancestor::div[contains(@class,"flex-col")][1]')
+    .locator('div.cursor-pointer')
+    .first();
 
-    // Select Attorneys of Law Firm to add in billing group and save the details
-    await page.locator(CaseLocators.billingConfig.lawFirmOptionsInput).first().click()
-    await page.waitForTimeout(1000)
+  await page.waitForTimeout(3000);
 
-    await page.locator(CaseLocators.billingConfig.lawFirmOption4).click()
-    await page.waitForTimeout(1000)
+  await lawFirmTrigger.click();
+
+  
+await page.waitForTimeout(2000); // Wait for the dropdown to appear
+    await page.locator(UserLocators.supportStaff.lawFirmOption2).first().click()
+    await page.locator(UserLocators.supportStaff.officeDropdown).selectOption({ index: 1 })
+ //await page.locator(UserLocators.supportStaff.lawFirmOption2).first().click()
+    await page.locator(UserLocators.supportStaff.officeDropdown).selectOption({ index: 1 })
+    //await page.locator(CaseLocators.billingConfig.lawFirmOption4).click()
+    //await page.waitForTimeout(1000)
 
     await page.getByLabel(CaseLocators.billingConfig.attorneyLabel).selectOption('14f560cc-5bd8-4686-982c-3563b11fe18c')
     await page.waitForTimeout(2000)
@@ -142,41 +139,21 @@ test.skip('New Case', async ({ page }) => {
     else {
       await page.getByRole("button", { name: "Save" }).click()
         }
-    // add Billing details for the invoice
+    // add Billing details for the invoice*/
 
  })
 
 
-test.skip('Edit Case', async ({ page }) => {
+test('Edit Case', { tag: '@smoke' }, async ({ page }) => {
   await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
   await page.locator(CaseLocators.nav.newCaseLink).click()
+  //await page.waitForResponse(response => response.url().includes('/case') && response.status() === 200);
+  //await page.waitForEvent('domcontentloaded')
   await page.locator(CaseLocators.caseList.firstCaseRow).first().hover();
-
-  await page.locator(CaseLocators.caseList.firstCaseAction).click()
-  await page.waitForTimeout(2000)
-
-  /* Navigate to Billing Configuration tab and add the billing group for the case
-  await page.getByText("Billing configuration").click();
-  await page.locator(CaseLocators.billingConfig.billingGroupLabel).click();
-  await page.waitForTimeout(2000)
-
-
-    // Select Attorneys of Law Firm to add in billing group and save the details
-    await page.locator(CaseLocators.billingConfig.lawFirmOptionsInput).first().click()
-    await page.waitForTimeout(1000)
-
-    await page.locator(CaseLocators.billingConfig.lawFirmOption3).click()
-    await page.waitForTimeout(1000)
-
-    await page.getByLabel(CaseLocators.billingConfig.attorneyLabel).selectOption('14f560cc-5bd8-4686-982c-3563b11fe18c')
-    await page.waitForTimeout(2000)*/
-
-
-
-     // add Case Notes and save the details for the case
-    await page.getByText("Case notes").click()
-    await page.waitForTimeout(2000)
+   await page.waitForTimeout(3000);
+  await page.locator(CaseLocators.caseList.firstCaseAction).click();
+  await page.waitForTimeout(5000);
 
     // Navigate to New Case Note form and add the details and save
     await page.getByText("New case note").click()
@@ -185,9 +162,44 @@ test.skip('Edit Case', async ({ page }) => {
     //await page.locator(CaseLocators.caseNotes.workTypeDropdown).selectOption({index: 1})
     await page.locator(CaseLocators.caseNotes.workTypeDropdown).selectOption({index: 1})
 
+await expect(
+  page.getByRole('button', { name: 'SAVE' })
+).toBeEnabled();
+
+await page.locator(CaseLocators.caseNotes.addBillableLabel).click()
+
+await page.locator(CaseLocators.caseNotes.Internalnotesdesc).fill("This is a case note for the case - " + generate_random_name(5))
+await expect(page.locator((CaseLocators.caseNotes.billiableminutes))).toBeVisible()
+await page.locator(CaseLocators.caseNotes.billiableminutes).fill('60')
+await page.locator(CaseLocators.caseNotes.billiableminutes).blur()
+
+
+    const saveButton = page.getByRole('button', { name: 'SAVE' });
+
+    await saveButton.click();
     await page.waitForTimeout(2000)
 
-    await page.getByRole("button", {name: "Save"}).click();
-    await page.waitForTimeout(2000)
-    await page.keyboard.press('Escape');
+
+await page.locator("div[role='dialog']").getByText("Billing", { exact: true }).click();
+await page.waitForTimeout(5000)
+await page.locator("//button[normalize-space()='Lock all']").click();
+await page.waitForTimeout(3000)
+
+await page.locator('#billing-tab').locator('button').nth(3).click();
+await page.waitForTimeout(3000)
+
+
+await page.mouse.wheel(0, 1500);
+
+// Click on the Submit button to submit the invoice
+await page.locator('#billing-tab').getByRole('button', { name: 'Submit' }).click();
+await page.waitForTimeout(9000)
+
+
+// Wait for the back button to appear before clicking it
+await expect(page.locator('button:has-text("Back")')).toBeVisible();
+await page.locator('button:has-text("Back")').click();
+await page.waitForTimeout(9000)
+await page.waitForLoadState("networkidle");
+    //await page.keyboard.press('Escape');
 })
