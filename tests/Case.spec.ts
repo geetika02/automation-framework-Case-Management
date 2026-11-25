@@ -27,7 +27,7 @@ function generate_random_name_email(length = 4) {
   return result;
 }
 
-test('New Case', { tag: '@regression' }, async ({ page }) => {
+test('007-New Case', { tag: '@regression' }, async ({ page }) => {
   await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
 
@@ -144,21 +144,22 @@ await page.waitForTimeout(2000); // Wait for the dropdown to appear
  })
 
 
-test('Edit Case', { tag: '@smoke' }, async ({ page }) => {
+test('008-Edit Case', { tag: '@smoke' }, async ({ page }) => {
   await page.goto(EnvConfig.baseURL)
   await page.waitForLoadState("networkidle")
+  const postLoginIndicator = page.getByRole("link", { name: "Case List" })
+  if (!(await postLoginIndicator.isVisible())) {
+    throw new Error(`Not logged in - expected a valid session in ${EnvConfig.storageStatePath}. Run login.spec.ts to refresh it.`)
+  }
   await page.locator(CaseLocators.nav.newCaseLink).click()
-  //await page.waitForResponse(response => response.url().includes('/case') && response.status() === 200);
-  //await page.waitForEvent('domcontentloaded')
+  await page.locator(CaseLocators.caseList.firstCaseRow).first().waitFor({ state: 'visible' })
   await page.locator(CaseLocators.caseList.firstCaseRow).first().hover();
-   await page.waitForTimeout(3000);
+  await page.locator(CaseLocators.caseList.firstCaseAction).waitFor({ state: 'visible' })
   await page.locator(CaseLocators.caseList.firstCaseAction).click();
-  await page.waitForTimeout(5000);
 
     // Navigate to New Case Note form and add the details and save
     await page.getByText("New case note").click()
-    await page.waitForTimeout(1000)
-    await page.getByText("Work type")
+    await page.locator(CaseLocators.caseNotes.workTypeDropdown).waitFor({ state: 'visible' })
     //await page.locator(CaseLocators.caseNotes.workTypeDropdown).selectOption({index: 1})
     await page.locator(CaseLocators.caseNotes.workTypeDropdown).selectOption({index: 1})
 
@@ -193,13 +194,13 @@ await page.mouse.wheel(0, 1500);
 
 // Click on the Submit button to submit the invoice
 await page.locator('#billing-tab').getByRole('button', { name: 'Submit' }).click();
-await page.waitForTimeout(9000)
+await page.waitForTimeout(450000)
 
 
 // Wait for the back button to appear before clicking it
 await expect(page.locator('button:has-text("Back")')).toBeVisible();
 await page.locator('button:has-text("Back")').click();
-await page.waitForTimeout(9000)
+await page.waitForTimeout(30000)
 await page.waitForLoadState("networkidle");
     //await page.keyboard.press('Escape');
 })
